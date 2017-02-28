@@ -381,6 +381,5 @@ WITH
 SELECT governmentform, count(country.name) AS forms_of_gov
 FROM largest_surface_area
 GROUP BY governmentform
-ORDER BY forms_of_gov DESC;
-
+ORDER BY forms_of_gov DESC
 -- above we are not done with this one^^^^^^^
