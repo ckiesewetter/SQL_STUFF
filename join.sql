@@ -214,19 +214,29 @@ SELECT       language,
 --we need to find it by population
 
 --first we need to create a table that combines population and language
-WITH
-  language_and_country AS
-(SELECT
-  c.name,
-  c.code,
-  cl.language,
-  c.name
-FROM country c JOIN countrylanguage cl ON c.code = cl.countrycode)
 
-SELECT       population,
-             COUNT(population) AS common_language
-    FROM     language_and_country
-    GROUP BY population
-    ORDER BY common_language DESC
-    LIMIT    1;
--- ^^^^here we are not done!!
+-- we could also use the countrylanguage table only and use the percentage with max()
+
+
+-- what is the most spoken language
+-- how many people speak each language
+-- how many people per country speak each language
+
+-- people per county speaking a langues = percentage of language per country * poplulation per country
+WITH speakers_and_countries AS (
+  SELECT
+    cl.language as language,
+    c.name as country_name,
+    c.population * cl.percentage as speakers_per_country
+  FROM
+    country c JOIN countrylanguage cl
+    ON c.code = cl.countrycode
+)
+SELECT
+  language,
+  SUM(speakers_per_country) as sum_of_speakers
+FROM speakers_and_countries
+-- sum people speaking each langunge in all countries
+GROUP BY language
+ORDER BY sum_of_speakers DESC
+LIMIT 1
