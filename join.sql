@@ -239,4 +239,4 @@ FROM speakers_and_countries
 -- sum people speaking each langunge in all countries
 GROUP BY language
 ORDER BY sum_of_speakers DESC
-LIMIT 1
+LIMIT 1;
